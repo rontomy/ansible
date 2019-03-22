@@ -1,0 +1,53 @@
+---
+- name: Checking connection
+  hosts: test
+  tasks:
+
+  - name: Creating file
+    file:
+       path: "/home/ron/testingansible/{{ item }}"
+       state: directory
+       mode: 740
+       owner: ron
+    with_items:
+    - folder1
+    - folder2
+    - folder3
+    - folder4
+
+  - name: Install packages
+    with_items:
+    - git
+    - nginx
+    action: "{{ ansible_pkg_mgr }} state=present name={{ item }}"
+ 
+  - name: Copying files
+    copy:
+      src: /home/nikhil/playbooks/play1.yml
+      dest: /home/ron/testingansible
+      owner: ron
+      group: ron
+      mode: 750
+#  - name: Installing git
+#    apt:
+#      name: git
+#      state: present
+  
+#  - name: Getting from repo using git
+#    git: 
+#      repo: 'https://github.com/kelseyhightower/helloworld.git'
+#      dest: /home/ron/ansibletesting 
+
+#  - name: Getting repo using command
+#    command: "{{ item }}"
+#    with_items: 
+#    - git clone 'https://github.com/kelseyhightower/helloworld.git'
+#    - mkdir -p /home/ron/testingansible/folder5
+#    args:
+#      chdir: /home/ron/testingansible/folder2
+
+#  - name: Installing nginx
+#    apt:
+#      name: nginx
+#      state: present
+
